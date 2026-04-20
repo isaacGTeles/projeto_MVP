@@ -21,7 +21,7 @@ header {
   border-radius: 12px;
   padding: 20px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  background: white;
+  background: rgb(56, 24, 82);
 }
 
 .status {
@@ -54,7 +54,6 @@ header {
   border-radius: 5px;
   cursor: pointer;
 }
-
 
 .status-container {
   display: flex;
@@ -139,3 +138,18 @@ header {
 }
 
 .btn-enviar:hover { background: #218838; }
+
+.btn-edit-card {
+  background: #ecc94b; /* Amarelo/Dourado */
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 5px;
+  font-weight: bold;
+}
+
+.btn-editar {
+  background: #f6ad55; /* Laranja para edição */
+  /* ... mesmo estilo do btn-enviar ... */
+}

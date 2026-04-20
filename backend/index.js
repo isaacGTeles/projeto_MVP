@@ -77,6 +77,47 @@ app.patch('/abrigos/:id/vagas', async (req, res) => {
     }
 });
 
+// Rota para editar todos os dados de um abrigo
+app.put('/abrigos/:id', async (req, res) => {
+    const { id } = req.params;
+    const { nome, endereco, telefone, capacidade_total, vagas_disponiveis, aceita_pets, tem_cozinha } = req.body;
+
+    try {
+        const atualizacao = await pool.query(
+            `UPDATE abrigos 
+             SET nome = $1, endereco = $2, telefone = $3, capacidade_total = $4, 
+                 vagas_disponiveis = $5, aceita_pets = $6, tem_cozinha = $7 
+             WHERE id = $8 RETURNING *`,
+            [nome, endereco, telefone, capacidade_total, vagas_disponiveis, aceita_pets, tem_cozinha, id]
+        );
+
+        res.json(atualizacao.rows[0]);
+    } catch (err) {
+        res.status(500).json({ error: "Erro ao editar abrigo" });
+    }
+});
+
+// Rota para deletar um abrigo
+app.delete('/abrigos/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const delecao = await pool.query(
+            "DELETE FROM abrigos WHERE id = $1 RETURNING *",
+            [id]
+        );
+
+        if (delecao.rows.length === 0) {
+            return res.status(404).json({ error: "Abrigo não encontrado" });
+        }
+
+        res.json({ message: "Abrigo removido com sucesso!" });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json({ error: "Erro ao deletar abrigo" });
+    }
+});
+
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
 });
